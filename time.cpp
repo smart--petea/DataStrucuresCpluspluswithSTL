@@ -10,10 +10,26 @@ struct Time
     int minutes;
 };
 
-void initialize(Time& t, int hours = 11, int minutes = 59)
+void normalize(Time& t)
+{
+    //hours in [0, 23]
+    //minutes in [0, 59]
+    t.hours += t.minutes < 0 ? (t.minutes - 60)/ 60 : t.minutes / 60;
+    t.hours = (t.hours < 0) ? t.hours % 24 + 24 : t.hours % 24;
+    t.minutes = (t.minutes < 0) ? t.minutes % 60 + 60 : t.minutes % 60; 
+}
+
+void add_minutes(Time& t, int num_minutes)
+{
+    t.minutes += num_minutes;
+    normalize(t);
+}
+
+void initialize(Time& t, int hours = 23, int minutes = 59) //initialize(t, 100, 100)
 {
     t.hours = hours;
     t.minutes = minutes;
+    normalize(t);
 }
 
 void read(Time& t, istream& in)
@@ -39,6 +55,7 @@ bool is_later_than(const Time& t1, const Time& t2)
 {
     return (t1.hours > t2.hours) || (t1.hours == t2.hours && t1.minutes > t2.minutes);
 }
+
 
 int main()
 {
@@ -69,6 +86,7 @@ int main()
     }
     */
 
+    /*
     //1.4.5
     //Add to the Time data type an operation is_later_than(t1, t2)
     Time t1, t2;
@@ -88,6 +106,38 @@ int main()
     initialize(t1, 4, 34);
     initialize(t2, 5, 33);
     assert(!is_later_than(t1, t2));
+    */
+
+    //1.4.6
+    Time t1;
+    initialize(t1, 0, 0);
+    add_minutes(t1, -12);
+    print(t1, cout);
+    cout << endl;
+
+    /*
+    //initialize testing
+    Time t1;
+    initialize(t1, 1000, 2000);
+    print(t1, cout);
+    cout << endl;
+
+    initialize(t1, 0, -20); //23:40
+    print(t1, cout);
+    cout << endl;
+
+    initialize(t1, -2, -20); //21:40
+    print(t1, cout);
+    cout << endl;
+
+    initialize(t1, 0, -72); //22:48
+    print(t1, cout);
+    cout << endl;
+
+    initialize(t1, 1, -12); //00:48
+    print(t1, cout);
+    cout << endl;
+    */
 
     return 0;
 }
