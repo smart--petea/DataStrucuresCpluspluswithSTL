@@ -34,16 +34,36 @@ void initialize(Time& t, int hours = 23, int minutes = 59) //initialize(t, 100, 
 
 void read(Time& t, istream& in)
 {
-    in >> t.hours;
-    in.get();
-    in >> t.minutes;
+    in >> t.hours;  //8
+    in.get();       //:
+    in >> t.minutes;//35
+    in.get();       //' '
+
+    char c;
+    in.get(c);      //a
+
+    if(c == 'p') t.hours += 12;
+
+    in.get();       //.
+    in.get();       //m
+    in.get();       //.
 }
 
 void print(const Time& t, ostream& out)
 {
-    out << t.hours << ':';
+    char c = 'a';
+    int hours = t.hours;
+
+    if(hours >= 12)
+    {
+        hours -= 12;
+        c = 'p';
+    }
+
+    out << hours << ':';
     if(t.minutes < 10) out << 0;
     out << t.minutes;
+    out << " " << c << ".m.";
 }
 
 double difference(const Time& t1, const Time& t2)
