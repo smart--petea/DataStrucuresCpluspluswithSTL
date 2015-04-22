@@ -4,6 +4,8 @@
 
 using namespace std;
 
+#ifndef TIME
+#define TIME
 struct Time
 {
     int hours;
@@ -75,3 +77,5 @@ bool is_later_than(const Time& t1, const Time& t2)
 {
     return (t1.hours > t2.hours) || (t1.hours == t2.hours && t1.minutes > t2.minutes);
 }
+
+#endif

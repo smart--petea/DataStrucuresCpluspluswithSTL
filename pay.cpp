@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <sstream>
 #include <iomanip>
 #include "time.cpp"
 
@@ -15,14 +16,25 @@ double computePay(const Time& start_time, const Time& stop_time)
 
 int main()
 {
-    cout << "Name of input file: ";
-    string input_file_name;
-    getline(cin, input_file_name);
+    cout << "Name of start_file: ";
+    string start_file_name;
+    getline(cin, start_file_name);
 
-    ifstream ifs_input(input_file_name);
-    if(!ifs_input) 
+    ifstream ifs_start(start_file_name.c_str());
+    if(!ifs_start) 
     {
-        cout << "Could not open file." << endl;
+        cout << "Could not open start file." << endl;
+        return 1;
+    }
+
+    cout << "Name of stop_file: ";
+    string stop_file_name;
+    getline(cin, stop_file_name);
+
+    ifstream ifs_stop(stop_file_name.c_str());
+    if(!ifs_stop) 
+    {
+        cout << "Could not open start file." << endl;
         return 1;
     }
 
@@ -30,7 +42,7 @@ int main()
     string output_file_name;
     getline(cin, output_file_name);
 
-    ofstream ofs_output(output_file_name);
+    ofstream ofs_output(output_file_name.c_str());
     if(!ofs_output)
     {
         cout << "Could not open output file." << endl;
@@ -38,13 +50,18 @@ int main()
     }
 
     int employee_number;
-    while(ifs_input >> employee_number)
+    while(ifs_start >> employee_number)
     {
+        ifs_start.get();
+
         Time start_time;
-        read(start_time, ifs_input);
+        read(start_time, ifs_start);
+
+        ifs_stop >> employee_number;
+        ifs_stop.get();
 
         Time stop_time;
-        read(stop_time, ifs_input);
+        read(stop_time, ifs_stop);
 
 
         ofs_output << employee_number << ' ';
