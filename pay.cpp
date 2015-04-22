@@ -6,6 +6,13 @@
 
 using namespace std;
 
+double computePay(const Time& start_time, const Time& stop_time)
+{
+    int diff = difference(stop_time, start_time);
+
+    return  diff * (diff < 8 ? 18 : 20);
+}
+
 int main()
 {
     cout << "Name of input file: ";
@@ -31,7 +38,6 @@ int main()
     }
 
     int employee_number;
-    int kPayRate = 1;
     while(ifs_input >> employee_number)
     {
         Time start_time;
@@ -40,7 +46,6 @@ int main()
         Time stop_time;
         read(stop_time, ifs_input);
 
-        double pay = difference(stop_time, start_time) * kPayRate;
 
         ofs_output << employee_number << ' ';
 
@@ -48,7 +53,7 @@ int main()
         ofs_output << ' ';
 
         print(stop_time, ofs_output);
-        ofs_output << " $" << fixed << setprecision(2) << pay << endl;
+        ofs_output << " $" << fixed << setprecision(2) << computePay(start_time, stop_time) << endl;
     }
     return 0;
 }
