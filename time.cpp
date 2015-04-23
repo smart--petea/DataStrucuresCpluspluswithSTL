@@ -9,30 +9,34 @@ class Time
     friend double difference(const Time& t1, const Time& t2);
 
     private:
-        int hours;
         int minutes;
 };
 
 void initialize(Time& t)
 {
-    t.hours = t.minutes = 99;
+    t.minutes = 99;
 }
 
 void read(Time& t, istream& in)
 {
-    in >> t.hours;
+    int hours;
+    int minutes;
+
+    in >> hours;
     in.get(); //colon
-    in >> t.minutes;
+    in >> minutes;
+
+    t.minutes = minutes + hours * 60;
 }
 
 void print(const Time& t, ostream& out)
 {
-    out << t.hours << ':';
+    out << (t.minutes / 60) << ':';
     if(t.minutes < 10) out << 0;
-    out << t.minutes;
+    out << (t.minutes % 60);
 }
 
 double difference(const Time& t1, const Time& t2)
 {
-    return (t1.hours + t1.minutes/60.0) - (t2.hours + t2.minutes/60.0);
+    return (t1.minutes - t2.minutes)/60.0;
 }
