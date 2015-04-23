@@ -21,10 +21,13 @@ void read(Time& t, istream& in)
 {
     int hours;
     int minutes;
+    int seconds;
 
     in >> hours;
     in.get(); //colon
     in >> minutes;
+    in.get();
+    in >> seconds;
 
     t.minutes = minutes + hours * 60;
 }
@@ -33,7 +36,7 @@ void print(const Time& t, ostream& out)
 {
     out << (t.minutes / 60) << ':';
     if(t.minutes < 10) out << 0;
-    out << (t.minutes % 60);
+    out << (t.minutes % 60) << ":00";
 }
 
 double difference(const Time& t1, const Time& t2)
