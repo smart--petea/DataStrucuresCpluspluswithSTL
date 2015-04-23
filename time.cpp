@@ -35,6 +35,13 @@ class Time
             return false;
         }
 
+        void add_minutes(int num_minutes)
+        {
+            int total = num_minutes + minutes;
+            minutes = total % 60;
+            hours += total / 60;
+        }
+
     private:
         int hours;
         int minutes;
