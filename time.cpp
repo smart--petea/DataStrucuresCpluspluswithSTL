@@ -27,6 +27,14 @@ class Time
         {
             return (hours + minutes/60.0) - (t2.hours + t2.minutes/60.0);
         }
+
+        bool is_later_than(const Time& t) const
+        {
+            if(t.hours < hours || (t.hours == hours && t.minutes < minutes)) return true;
+
+            return false;
+        }
+
     private:
         int hours;
         int minutes;
