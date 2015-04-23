@@ -7,70 +7,46 @@
 
 using namespace std;
 
-double computePay(const Time& start_time, const Time& stop_time)
-{
-    int diff = difference(stop_time, start_time);
-
-    return  diff * (diff < 8 ? 18 : 20);
-}
-
 int main()
 {
-    cout << "Name of start_file: ";
-    string start_file_name;
-    getline(cin, start_file_name);
+    string in_file_name;
+    cout << "Input file: ";
+    getline(cin, in_file_name);
 
-    ifstream ifs_start(start_file_name.c_str());
-    if(!ifs_start) 
-    {
-        cout << "Could not open start file." << endl;
+    ifstream ifs_input(in_file_name.c_str());
+    if(ifs_input) {
+        cout << "Can't open input file";
         return 1;
     }
 
-    cout << "Name of stop_file: ";
-    string stop_file_name;
-    getline(cin, stop_file_name);
+    string out_file_name;
+    cout << "Out file: ";
+    getline(cin, out_file_name);
 
-    ifstream ifs_stop(stop_file_name.c_str());
-    if(!ifs_stop) 
-    {
-        cout << "Could not open start file." << endl;
-        return 1;
-    }
-
-    cout << "Name of output file: ";
-    string output_file_name;
-    getline(cin, output_file_name);
-
-    ofstream ofs_output(output_file_name.c_str());
-    if(!ofs_output)
-    {
-        cout << "Could not open output file." << endl;
+    ofstream ofs_output(out_file_name.c_str());
+    if(ofs_output) {
+        cout << "Can't open output file";
         return 1;
     }
 
     int employee_number;
-    while(ifs_start >> employee_number)
+    int kPayRate = 1;
+    while(ifs_input >> employee_number)
     {
-        ifs_start.get();
-
         Time start_time;
-        read(start_time, ifs_start);
-
-        ifs_stop >> employee_number;
-        ifs_stop.get();
+        start_time.read(ifs_input);
 
         Time stop_time;
-        read(stop_time, ifs_stop);
+        stop_time.read(ifs_input);
 
+        double pay = stop_time.minus(start_time) * kPayRate;
 
         ofs_output << employee_number << ' ';
-
-        print(start_time, ofs_output);
+        start_time.print(ofs_output);
         ofs_output << ' ';
-
-        print(stop_time, ofs_output);
-        ofs_output << " $" << fixed << setprecision(2) << computePay(start_time, stop_time) << endl;
+        stop_time.print(ofs_output);
+        ofs_output << " $" << fixed << setprecision(2) << pay << endl;
     }
+
     return 0;
 }

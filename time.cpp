@@ -3,43 +3,31 @@ using namespace std;
 
 class Time
 {
-    friend void initialize(Time & t);
-    friend void read(Time& t, istream& in);
-    friend void print(const Time& t, ostream& out);
-    friend double difference(const Time& t1, const Time& t2);
+    public:
+        void initialize() 
+        {
+            hours = minutes = 99;
+        }
 
+        void read(istream& in)
+        {
+            in >> hours;
+            in.get(); //colon
+            in >> minutes;
+        }
+
+        void print(ostream& out)
+        {
+            out << hours << ':';
+            if(minutes < 10) out << 0;
+            out << minutes;
+        }
+
+        double minus(const Time& t2)
+        {
+            return (hours + minutes/60.0) - (t2.hours + t2.minutes/60.0);
+        }
     private:
+        int hours;
         int minutes;
 };
-
-void initialize(Time& t)
-{
-    t.minutes = 99;
-}
-
-void read(Time& t, istream& in)
-{
-    int hours;
-    int minutes;
-    int seconds;
-
-    in >> hours;
-    in.get(); //colon
-    in >> minutes;
-    in.get();
-    in >> seconds;
-
-    t.minutes = minutes + hours * 60;
-}
-
-void print(const Time& t, ostream& out)
-{
-    out << (t.minutes / 60) << ':';
-    if(t.minutes < 10) out << 0;
-    out << (t.minutes % 60) << ":00";
-}
-
-double difference(const Time& t1, const Time& t2)
-{
-    return (t1.minutes - t2.minutes)/60.0;
-}
